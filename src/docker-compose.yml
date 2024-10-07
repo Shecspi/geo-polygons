@@ -1,0 +1,11 @@
+services:
+  geoService-redis:
+    container_name: geoService-redis
+    image: redis:7.4
+    restart: always
+    ports:
+      - "6379:6379"
+    env_file: "./.env"
+    volumes:
+      - ./redis/data:/root/redis
+      - ./redis/conf/redis.conf:/usr/local/etc/redis/redis.conf
