@@ -5,7 +5,7 @@ services:
     restart: always
     ports:
       - "6379:6379"
-    env_file: "./.env"
+#    env_file: "./.env"
     volumes:
-      - ./redis/data:/root/redis
-      - ./redis/conf/redis.conf:/usr/local/etc/redis/redis.conf
+      - ./redis_data/data:/root/redis
+      - ./redis_data/conf/redis.conf:/usr/local/etc/redis/redis.conf
