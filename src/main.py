@@ -5,7 +5,7 @@ from pathlib import Path
 
 from fastapi import FastAPI, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
-import redis
+from redis import Redis
 
 polygons_dir = '/home/shecspi/projects/geo-polygons/'
 
@@ -26,7 +26,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-r = redis.Redis()
+r = Redis()
 
 
 # @app.get("/")
