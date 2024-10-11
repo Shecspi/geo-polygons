@@ -6,7 +6,7 @@ from pathlib import Path
 from fastapi import FastAPI, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 
-polygons_dir = '/home/shecspi/projects/geo-polygons'
+polygons_dir = '/home/shecspi/projects/geo-polygons/'
 
 
 app = FastAPI()
@@ -52,8 +52,12 @@ async def get_all_regions(country_code: str):
     """
     Возвращает полигоны всех регионов указанной страны.
     """
-    p = Path(polygons_dir) / f'regions/{country_code}'
-    files = p.glob('*.geojson')
+    path = Path(polygons_dir) / f'regions/{country_code}'
+    files = path.glob('*.geojson')
+
+    if not path.exists() or not any(path.iterdir()):
+        return {'error': f'Отсутствуют полигоны регионов для страны {country_code}'}
+
     result = []
 
     for file in files:
@@ -68,6 +72,13 @@ async def get_region(country_code: str, region_code: str):
     """
     Возвращает полигон указанного региона из указанной страны.
     """
+    path = Path(polygons_dir) / f'regions/{country_code}/{region_code}.geojson'
+
+    if not path.exists():
+        return {'error': f'Отсутствует полигон для региона {region_code} в стране {country_code}'}
+
+    with open(path, 'r') as f:
+        return json.loads(f.read())
 
 
 @router_region.get('/{country_code}/{area_code}/{region_code}')
