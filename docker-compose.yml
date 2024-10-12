@@ -1,5 +1,5 @@
 services:
-  geoService-redis:
+  geoService-web:
     container_name: geoService-redis
     image: redis:7.4
     restart: always
