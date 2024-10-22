@@ -15,7 +15,6 @@ app = FastAPI()
 router_country = APIRouter()
 router_region = APIRouter()
 router_city = APIRouter()
-
 origins = [
     '*'
 ]
@@ -63,28 +62,10 @@ async def get_all_regions(country_code: str):
         return {'error': f'Отсутствуют полигоны регионов для страны {country_code}'}
 
     result = []
-    # start_time = time.perf_counter()
     for file in files:
-        # Код без Redis
         with open(file, 'r') as f:
             polygon = json.loads(f.read())
-
-        # Код с Redis
-        # filename = file.stem
-        # redis_mask = f'{country_code}__{filename}'
-        # redis_mtime = r.get(f'{redis_mask}__mtime')
-        # file_mtime = file.stat().st_mtime
-        # if redis_mtime and float(redis_mtime) == file_mtime:
-        #     polygon = json.loads(r.get(redis_mask))
-        # else:
-        #     r.set(f'{redis_mask}__mtime', file_mtime)
-        #     with open(file, 'r') as f:
-        #         polygon_str = f.read()
-        #         r.set(f'{redis_mask}', polygon_str)
-        #         polygon = json.loads(polygon_str)
-
         result.append(polygon)
-    # print(time.perf_counter() - start_time)
 
     return result
 
