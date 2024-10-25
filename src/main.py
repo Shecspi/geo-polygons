@@ -6,7 +6,7 @@ from fastapi import FastAPI, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 
 
-polygons_dir = "/geo-polygons"
+polygons_dir = Path().cwd()
 
 
 app = FastAPI()
