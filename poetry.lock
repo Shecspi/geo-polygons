@@ -258,21 +258,6 @@ files = [
 typing-extensions = ">=4.6.0,<4.7.0 || >4.7.0"
 
 [[package]]
-name = "redis"
-version = "5.1.1"
-description = "Python client for Redis database and key-value store"
-optional = false
-python-versions = ">=3.8"
-files = [
-    {file = "redis-5.1.1-py3-none-any.whl", hash = "sha256:f8ea06b7482a668c6475ae202ed8d9bcaa409f6e87fb77ed1043d912afd62e24"},
-    {file = "redis-5.1.1.tar.gz", hash = "sha256:f6c997521fedbae53387307c5d0bf784d9acc28d9f1d058abeac566ec4dbed72"},
-]
-
-[package.extras]
-hiredis = ["hiredis (>=3.0.0)"]
-ocsp = ["cryptography (>=36.0.1)", "pyopenssl (==23.2.1)", "requests (>=2.31.0)"]
-
-[[package]]
 name = "ruff"
 version = "0.7.0"
 description = "An extremely fast Python linter and code formatter, written in Rust."
@@ -359,4 +344,4 @@ standard = ["colorama (>=0.4)", "httptools (>=0.5.0)", "python-dotenv (>=0.13)",
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "fa3554a9cab23f3b18d8655d9eb5fa4cdbb2c78200d968333516c2a31dbb9bd5"
+content-hash = "11a4898f0fd90c3f787036631e59fb08adb4c9298e328eec238c36a159f67f38"

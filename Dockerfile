@@ -1,5 +1,8 @@
 FROM python:3.12-slim-bullseye
 
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
 WORKDIR /geo-polygons
 COPY poetry.lock pyproject.toml ./
 RUN python -m pip install --no-cache-dir poetry==1.8.3 \
@@ -9,4 +12,4 @@ RUN python -m pip install --no-cache-dir poetry==1.8.3 \
 COPY . .
 
 WORKDIR src
-CMD ["poetry", "run", "gunicorn", "main:app", "--bind", "0.0.0.0:8000"]
+CMD ["poetry", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]

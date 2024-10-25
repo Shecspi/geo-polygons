@@ -1,10 +1,5 @@
 services:
   geoService-web:
-    image: redis:7.4
-    restart: always
-#    ports:
-#      - "6379:6379"
-#    env_file: "./.env"
-    volumes:
-      - ./redis_data/data:/root/redis
-      - ./redis_data/conf/redis.conf:/usr/local/etc/redis/redis.conf
+    build: .
+    ports:
+      - "8000:8000"
