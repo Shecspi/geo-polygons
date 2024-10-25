@@ -95,12 +95,12 @@ async def get_region(country_code: str, region_code: str):
         return json.loads(f.read())
 
 
-@router_region.get("/{country_code}/{area_code}/{region_code}")
-async def get_regions_in_area(country_code: str, area_code: str, region_code: str):
-    """
-    Возвращает полигоны всех регионов в указанном округе указанной страны.
-    Это может быть доступно не для всех стран, так как не у всех может быть деление на округа.
-    """
+# @router_region.get("/{country_code}/{area_code}/{region_code}")
+# async def get_regions_in_area(country_code: str, area_code: str, region_code: str):
+#     """
+#     Возвращает полигоны всех регионов в указанном округе указанной страны.
+#     Это может быть доступно не для всех стран, так как не у всех может быть деление на округа.
+#     """
 
 
 app.include_router(router_country, prefix="/country", tags=["country"])
