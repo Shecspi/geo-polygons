@@ -84,7 +84,6 @@ async def get_region(country_code: str, region_code: str):
     Возвращает полигон указанного региона из указанной страны.
     """
     path = Path(polygons_dir) / f"regions/{country_code}/{region_code}.geojson"
-    print(path)
 
     if not path.exists():
         return {
