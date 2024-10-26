@@ -1,5 +1,17 @@
 services:
-  geoService-web:
+  web-app:
     build: .
+    expose:
+      - "8000"
+    environment:
+      - RUN_TYPE=docker
+
+  nginx:
+    image:
+      nginx:1.27-alpine-slim
+    depends_on:
+      - web-app
     ports:
-      - "8000:8000"
+      - "80:80"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d

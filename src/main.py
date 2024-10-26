@@ -1,12 +1,43 @@
 import json
+import os
 
 from pathlib import Path
+from typing import Literal
 
 from fastapi import FastAPI, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
-polygons_dir = Path().cwd()
+type RunType = Literal["local", "docker"]
+
+
+class Settings(BaseSettings):
+    # Тип запуска приложения - локально или через Docker
+    RUN_TYPE: RunType
+
+
+class LocalSettings(Settings):
+    model_config = SettingsConfigDict(env_file=".env.local")
+
+    # Корневая директория приложения
+    BASE_DIR: str = str(Path().cwd())
+
+
+class DockerSettings(Settings):
+    model_config = SettingsConfigDict(env_file=".env.prod")
+
+    # Корневая директория приложения
+    BASE_DIR: str = str(Path().cwd().parent)
+
+
+# os.getenv("RUN_TYPE") объявлена только в docker0compose файле.
+# Если она есть, значит запуск происодит через Docker. Иначе - локальный запуск.
+if os.getenv("RUN_TYPE") == "docker":
+    settings = DockerSettings()
+else:
+    settings = LocalSettings()
 
 
 app = FastAPI()
@@ -24,12 +55,15 @@ app.add_middleware(
 )
 
 
+class AllRegionsOfCountryModel(BaseModel): ...
+
+
 @router_country.get("/all")
 async def get_all_countries():
     """
     Возвращает полигоны всех стран мира.
     """
-    path = Path(polygons_dir) / "country"
+    path = Path(settings.BASE_DIR) / "country"
     files = path.glob("*.geojson")
 
     if not path.exists() or not any(path.iterdir()):
@@ -49,7 +83,7 @@ async def get_country(country_code: str):
     """
     Возвращает полигон переданной страны.
     """
-    path = Path(polygons_dir) / f"country/{country_code}.geojson"
+    path = Path(settings.BASE_DIR) / f"country/{country_code}.geojson"
 
     if not path.exists():
         return {"error": f"Отсутствует полигон страны {country_code}"}
@@ -63,7 +97,7 @@ async def get_all_regions(country_code: str):
     """
     Возвращает полигоны всех регионов указанной страны.
     """
-    path = Path(polygons_dir) / f"regions/{country_code}"
+    path = Path(settings.BASE_DIR) / f"regions/{country_code}"
     files = path.glob("*.geojson")
 
     if not path.exists() or not any(path.iterdir()):
@@ -83,7 +117,7 @@ async def get_region(country_code: str, region_code: str):
     """
     Возвращает полигон указанного региона из указанной страны.
     """
-    path = Path(polygons_dir) / f"regions/{country_code}/{region_code}.geojson"
+    path = Path(settings.BASE_DIR) / f"regions/{country_code}/{region_code}.geojson"
 
     if not path.exists():
         return {
@@ -92,14 +126,6 @@ async def get_region(country_code: str, region_code: str):
 
     with open(path, "r") as f:
         return json.loads(f.read())
-
-
-# @router_region.get("/{country_code}/{area_code}/{region_code}")
-# async def get_regions_in_area(country_code: str, area_code: str, region_code: str):
-#     """
-#     Возвращает полигоны всех регионов в указанном округе указанной страны.
-#     Это может быть доступно не для всех стран, так как не у всех может быть деление на округа.
-#     """
 
 
 app.include_router(router_country, prefix="/country", tags=["country"])
