@@ -4,7 +4,7 @@ import os
 from pathlib import Path
 from typing import Literal
 
-from fastapi import FastAPI, APIRouter
+from fastapi import FastAPI, APIRouter, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -67,7 +67,10 @@ async def get_all_countries():
     files = path.glob("*.geojson")
 
     if not path.exists() or not any(path.iterdir()):
-        return {"error": "Отсутствуют полигоны стран"}
+        raise HTTPException(
+            status_code=404,
+            detail="Отсутствуют полигоны стран",
+        )
 
     result = []
     for file in files:
@@ -86,7 +89,10 @@ async def get_country(country_code: str):
     path = Path(settings.BASE_DIR) / f"country/{country_code}.geojson"
 
     if not path.exists():
-        return {"error": f"Отсутствует полигон страны {country_code}"}
+        raise HTTPException(
+            status_code=404,
+            detail=f"Отсутствует полигон страны {country_code}",
+        )
 
     with open(path, "r") as f:
         return json.loads(f.read())
@@ -101,7 +107,10 @@ async def get_all_regions(country_code: str):
     files = path.glob("*.geojson")
 
     if not path.exists() or not any(path.iterdir()):
-        return {"error": f"Отсутствуют полигоны регионов для страны {country_code}"}
+        raise HTTPException(
+            status_code=404,
+            detail=f"Отсутствуют полигоны регионов для страны {country_code}",
+        )
 
     result = []
     for file in files:
@@ -120,9 +129,10 @@ async def get_region(country_code: str, region_code: str):
     path = Path(settings.BASE_DIR) / f"regions/{country_code}/{region_code}.geojson"
 
     if not path.exists():
-        return {
-            "error": f"Отсутствует полигон для региона {region_code} в стране {country_code}"
-        }
+        raise HTTPException(
+            status_code=404,
+            detail=f"Отсутствует полигон для региона {region_code} в стране {country_code}",
+        )
 
     with open(path, "r") as f:
         return json.loads(f.read())
