@@ -3,24 +3,7 @@ services:
     build: .
     expose:
       - "8000"
+    ports:
+      - "8000:8000"
     environment:
       - RUN_TYPE=docker
-
-  nginx:
-    image:
-      nginx:1.27-alpine-slim
-    depends_on:
-      - web-app
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./nginx:/etc/nginx/conf.d
-      - ./certbot/www:/var/www/certbot/:ro
-      - ./certbot/conf/:/etc/nginx/ssl/:ro
-
-  certbot:
-    image: certbot/certbot:latest
-    volumes:
-      - ./certbot/www/:/var/www/certbot/:rw
-      - ./certbot/conf/:/etc/letsencrypt/:rw
