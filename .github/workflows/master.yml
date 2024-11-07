@@ -1,0 +1,17 @@
+name: Deploy to the prod-server geo-polygons.ru
+on:
+  push:
+    branches: ["master"]
+
+jobs:
+  deploy:
+    runs-on: [ self-hosted, prod ]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch updates
+        run: |
+          cd /home/www/geo-polygons
+          git fetch
+          git switch master
+          git merge origin/master
+          docker compose up --build --force-recreate -d
