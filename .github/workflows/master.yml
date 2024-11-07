@@ -5,7 +5,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: [ self-hosted, prod ]
+    runs-on: [ self-hosted, gp-prod ]
     steps:
       - uses: actions/checkout@v4
       - name: Fetch updates
