@@ -1,4 +1,5 @@
 import json
+import logging
 import os
 
 from pathlib import Path
@@ -38,6 +39,14 @@ if os.getenv("RUN_TYPE") == "docker":
     settings = DockerSettings()
 else:
     settings = LocalSettings()
+
+
+logging.basicConfig(
+    level=logging.INFO,
+    filename="log.log",
+    filemode="w+",
+    format="%(asctime)s - %(levelname)s - %(message)s",
+)
 
 
 app = FastAPI()
@@ -107,6 +116,7 @@ async def get_all_regions(country_code: str):
     files = path.glob("*.geojson")
 
     if not path.exists() or not any(path.iterdir()):
+        logging.warning("Отсутствуют полигоны регионов для страны %s", country_code)
         raise HTTPException(
             status_code=404,
             detail=f"Отсутствуют полигоны регионов для страны {country_code}",
@@ -117,6 +127,8 @@ async def get_all_regions(country_code: str):
         with open(file, "r") as f:
             polygon = json.loads(f.read())
         result.append(polygon)
+
+    logging.info("Загружены полигоны всех регионов для страны %s", country_code)
 
     return result
 
@@ -129,12 +141,20 @@ async def get_region(country_code: str, region_code: str):
     path = Path(settings.BASE_DIR) / f"regions/{country_code}/{region_code}.geojson"
 
     if not path.exists():
+        logging.warning(
+            "Отсутствует полигон региона %s в стране %s",
+            region_code,
+            country_code,
+        )
         raise HTTPException(
             status_code=404,
             detail=f"Отсутствует полигон для региона {region_code} в стране {country_code}",
         )
 
     with open(path, "r") as f:
+        logging.info(
+            "Загружен полигон для региона %s в стране %s", region_code, country_code
+        )
         return json.loads(f.read())
 
 
