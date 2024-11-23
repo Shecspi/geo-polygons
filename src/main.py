@@ -107,12 +107,12 @@ async def get_country(country_code: str):
         return json.loads(f.read())
 
 
-@router_region.get("/{country_code}/all")
+@router_region.get("/lq/{country_code}/all")
 async def get_all_regions(country_code: str):
     """
     Возвращает полигоны всех регионов указанной страны.
     """
-    path = Path(settings.BASE_DIR) / f"regions/{country_code}"
+    path = Path(settings.BASE_DIR) / f"polygons/LQ/regions/{country_code}"
     files = path.glob("*.geojson")
 
     if not path.exists() or not any(path.iterdir()):
