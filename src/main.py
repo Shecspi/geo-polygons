@@ -133,12 +133,43 @@ async def get_all_regions(country_code: str):
     return result
 
 
-@router_region.get("/{country_code}/{region_code}")
+@router_region.get("/lq/{country_code}/{region_code}")
 async def get_region(country_code: str, region_code: str):
     """
     Возвращает полигон указанного региона из указанной страны.
     """
-    path = Path(settings.BASE_DIR) / f"regions/{country_code}/{region_code}.geojson"
+    path = (
+        Path(settings.BASE_DIR)
+        / f"polygons/LQ/regions/{country_code}/{region_code}.geojson"
+    )
+
+    if not path.exists():
+        logging.warning(
+            "Отсутствует полигон региона %s в стране %s",
+            region_code,
+            country_code,
+        )
+        raise HTTPException(
+            status_code=404,
+            detail=f"Отсутствует полигон для региона {region_code} в стране {country_code}",
+        )
+
+    with open(path, "r") as f:
+        logging.info(
+            "Загружен полигон для региона %s в стране %s", region_code, country_code
+        )
+        return json.loads(f.read())
+
+
+@router_region.get("/hq/{country_code}/{region_code}")
+async def get_hq_region(country_code: str, region_code: str):
+    """
+    Возвращает полигон указанного региона из указанной страны.
+    """
+    path = (
+        Path(settings.BASE_DIR)
+        / f"polygons/HQ/regions/{country_code}/{region_code}.geojson"
+    )
 
     if not path.exists():
         logging.warning(
