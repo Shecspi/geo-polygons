@@ -72,7 +72,7 @@ async def get_all_countries():
     """
     Возвращает полигоны всех стран мира.
     """
-    path = Path(settings.BASE_DIR) / "country"
+    path = Path(settings.BASE_DIR) / "polygons/LQ/countries"
     files = path.glob("*.geojson")
 
     if not path.exists() or not any(path.iterdir()):
