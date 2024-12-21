@@ -1,0 +1,8 @@
+{
+"type": "FeatureCollection",
+"name": "HK",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "ISO3166-1:alpha2": "HK", "ISO3166-1:alpha3": "HKG", "ISO3166-1:numeric": "344", "name:en": "Hong Kong", "name:ru": "Гонконг" }, "geometry": { "type": "MultiPolygon", "coordinates": [ [ [ [ 114.044136, 22.5042668 ], [ 114.1614669, 22.561963 ], [ 114.4339855, 22.562002 ], [ 114.5024867, 22.3650894 ], [ 114.5024444, 22.1484722 ], [ 113.896557, 22.1425397 ], [ 113.8172408, 22.2173387 ], [ 113.8691111, 22.4288056 ], [ 114.044136, 22.5042668 ], [ 114.044136, 22.5042668 ] ] ] ] } }
+]
+}
