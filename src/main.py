@@ -90,12 +90,12 @@ async def get_all_countries():
     return result
 
 
-@router_country.get("/{country_code}")
+@router_country.get("/hq/{country_code}")
 async def get_country(country_code: str):
     """
-    Возвращает полигон переданной страны.
+    Возвращает полигон переданной страны в высоком качестве.
     """
-    path = Path(settings.BASE_DIR) / f"country/{country_code}.geojson"
+    path = Path(settings.BASE_DIR) / f"polygons/HQ/countries/{country_code}.geojson"
 
     if not path.exists():
         raise HTTPException(
