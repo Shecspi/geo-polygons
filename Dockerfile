@@ -11,5 +11,5 @@ RUN python -m pip install --no-cache-dir poetry==1.8.3 \
     && rm -rf $(poetry config cache-dir)/{cache,artifacts}
 COPY . .
 
-WORKDIR src
-CMD ["poetry", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+WORKDIR /geo-polygons
+CMD ["poetry", "run", "uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000"]
