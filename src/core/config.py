@@ -25,11 +25,11 @@ class DockerSettings(Settings):
     model_config = SettingsConfigDict(env_file=".env.prod")
 
     # Корневая директория приложения
-    BASE_DIR: str = str(Path().cwd().parent)
+    BASE_DIR: str = str(Path().cwd())
 
 
-# os.getenv("RUN_TYPE") объявлена только в docker0compose файле.
-# Если она есть, значит запуск происодит через Docker. Иначе - локальный запуск.
+# os.getenv("RUN_TYPE") объявлена только в docker-compose файле.
+# Если она есть, значит запуск происходит через Docker. Иначе - локальный запуск.
 if os.getenv("RUN_TYPE") == "docker":
     settings = DockerSettings()
 else:
