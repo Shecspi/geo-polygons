@@ -1,0 +1,8 @@
+{
+"type": "FeatureCollection",
+"name": "42",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "ISO3166-2": "IT-42", "admin_level": "4", "boundary": "administrative", "name": "Liguria", "name:ca": "Ligúria", "name:cs": "Ligurie", "name:da": "Ligurien", "name:de": "Ligurien", "name:en": "Liguria", "name:eo": "Ligurio", "name:es": "Liguria", "name:fi": "Liguria", "name:fr": "Ligurie", "name:hu": "Liguria", "name:it": "Liguria", "name:ja": "リグーリア州", "name:nl": "Ligurië", "name:pl": "Liguria", "name:pt": "Ligúria", "name:ro": "Liguria", "name:ru": "Лигурия", "name:sc": "Ligùria", "name:sk": "Ligúria", "name:sl": "Ligurija", "name:sv": "Ligurien", "ref:ISTAT": "07", "ref:nuts": "ITC3", "ref:nuts:2": "ITC3", "short_name": "LIG", "type": "boundary", "wikidata": "Q1256", "wikimedia_commons": "Category:Liguria", "wikipedia": "it:Liguria" }, "geometry": { "type": "MultiPolygon", "coordinates": [ ] } }
+]
+}
