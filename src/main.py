@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from src.api import country, region
+from src.api import country, region, city_district
 
 app = FastAPI()
 
@@ -16,3 +16,6 @@ app.add_middleware(
 
 app.include_router(country.router, prefix="/country", tags=["country"])
 app.include_router(region.router, prefix="/region", tags=["region"])
+app.include_router(
+    city_district.router, prefix="/city-district", tags=["city-district"]
+)
